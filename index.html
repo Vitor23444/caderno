@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Caderno de Campo</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3b6b2a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Caderno de Campo">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<style>
+:root{--bg:#eef1e8;--fg:#1c2418;--card:#fbfcf8;--mut:#68725f;--ac:#3b6b2a;--acf:#fff;--bd:#d3dac6;--bad:#b3392b;--ok:#cfe5bf;--mid:#f1e3a8;
+color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12170f;--fg:#e6ecdc;--card:#1b2217;--mut:#9aa68c;--ac:#8fc46f;--acf:#0f1a0a;--bd:#2d3727;--bad:#f08a7b;--ok:#2f4a22;--mid:#54491b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12170f;--fg:#e6ecdc;--card:#1b2217;--mut:#9aa68c;--ac:#8fc46f;--acf:#0f1a0a;--bd:#2d3727;--bad:#f08a7b;--ok:#2f4a22;--mid:#54491b;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 "Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;max-width:720px;margin-inline:auto;padding:0 14px 40px}
+h1{font:700 1.35rem/1.2 "Source Serif 4",Georgia,serif;margin:14px 0 2px}
+.sub{color:var(--mut);margin:0 0 12px;font-size:.92rem}
+nav{display:flex;gap:6px;margin-bottom:12px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:6px 0;z-index:5}
+nav button{flex:1;padding:10px 4px;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:8px;font:inherit;font-weight:600}
+nav button.on{background:var(--ac);color:var(--acf);border-color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:12px}
+label{display:block;font-weight:600;margin:10px 0 4px}
+input,textarea,select{width:100%;padding:11px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit}
+textarea{min-height:90px;font-family:ui-monospace,Menlo,monospace;font-size:.88rem}
+button.p{background:var(--ac);color:var(--acf);border:0;border-radius:8px;padding:12px 16px;font:inherit;font-weight:700}
+button.s{background:transparent;color:var(--fg);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font:inherit}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+.hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.big{font:700 1.8rem/1 "Source Serif 4",Georgia,serif}
+.opts{display:flex;flex-wrap:wrap;gap:6px}.opts button{flex:0 0 auto;min-width:52px;padding:12px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);border-radius:8px;font:inherit;font-weight:600}
+.opts button.on{background:var(--ac);color:var(--acf);border-color:var(--ac)}
+.bad{border-color:var(--bad)!important}.err{color:var(--bad);font-size:.85rem;min-height:1.1em}
+.grid{overflow-x:auto}table{border-collapse:collapse}td{border:1px solid var(--bd);width:46px;height:46px;text-align:center;font-size:.72rem;cursor:pointer;padding:0}
+td.f0{background:var(--card)}td.f1{background:var(--mid)}td.f2{background:var(--ok)}td.cur{outline:3px solid var(--ac);outline-offset:-3px}
+.mut{color:var(--mut);font-size:.88rem}
+.st{display:flex;gap:0;margin-bottom:12px;border-bottom:2px solid var(--bd)}
+.st button{background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:10px 16px;font:inherit;font-weight:600;color:var(--mut)}
+.st button.on{color:var(--fg);border-bottom-color:var(--ac)}
+.gh{font:700 1.05rem/1.2 "Source Serif 4",Georgia,serif;margin:20px 0 0;padding-bottom:4px;border-bottom:2px solid var(--ac)}
+.mod{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:10px;overflow-x:auto;font-size:.82rem;margin:6px 0}
+details summary{cursor:pointer}
+.mt{font-size:.78rem;min-height:1em;margin-top:3px}
+.vobs{white-space:pre-wrap;margin:6px 0 10px}
+.phs{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin:8px 0}
+.ph{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:var(--bd)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+.ph span{position:absolute;left:4px;bottom:4px;background:rgba(0,0,0,.65);color:#fff;font-size:.72rem;padding:1px 6px;border-radius:4px}
+.ph button{position:absolute;top:4px;right:4px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.7);color:#fff;font:inherit;line-height:1}
+.fb{display:inline-block;padding:10px 14px;border:1px solid var(--bd);border-radius:8px;cursor:pointer;font-weight:600;background:var(--bg)}
+#zm{position:fixed;inset:0;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;z-index:50;padding:12px}
+#zm[hidden]{display:none}
+#zm img{max-width:100%;max-height:100%;object-fit:contain}
+td.f3{background:repeating-linear-gradient(45deg,var(--bd),var(--bd) 4px,var(--card) 4px,var(--card) 8px)}
+:root[data-hc]{--bg:#fff;--fg:#000;--card:#fff;--mut:#1c1c1c;--ac:#0a3d0a;--acf:#fff;--bd:#000;--bad:#9b0000;--ok:#8fdc6a;--mid:#ffe14d;color-scheme:light}
+:root[data-hc] body{font-size:18px;font-weight:500}
+:root[data-hc] input,:root[data-hc] textarea,:root[data-hc] select,:root[data-hc] .card,:root[data-hc] button{border-width:2px}
+:root[data-hc] .st button.on{border-bottom-width:5px}
+</style>
+</head>
+<body>
+<div class="hd"><h1>Caderno de Campo</h1><button class="s" id="hc" aria-pressed="false">Alto contraste</button></div>
+<p class="sub">Coleta de dados de ensaios em campo, com funcionamento offline.</p>
+<p class="mut" id="cn" role="status" style="margin:0 0 8px"></p>
+<div id="ib" class="card" hidden style="padding:10px 14px"><span id="it" class="mut"></span> <button class="p" id="ins" hidden>Instalar app</button></div>
+<nav id="nav"></nav>
+<main id="v"></main>
+<div id="zm" hidden></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+const $=s=>document.querySelector(s), KEY='fenocampo_v1';
+let S={trials:[],cur:null,tab:'trial',pi:0,sub:'list',editV:null,cache:{},ph:[],draft:null,imp:null,impErr:null,user:'',exp:'wide',mode:'plot',vi:0};
+
+/* ---- características padrão de avaliação ---- */
+const N9='1,2,3,4,5,6,7,8,9';
+const DEF_TXT=['Altura de inserção da espiga (cm);num;10;300','Germinação (nota 1 a 9);cat;'+N9,'Vigor (nota 1 a 9);cat;'+N9,'Requeima (nota 1 a 9);cat;'+N9,'Green Snap (%);num;0;100','Acamamento (%);num;0;100','Quebramento (%);num;0;100','Grãos Ardidos (%);num;0;100','Grãos Brotados (%);num;0;100','Florescimento (dias);num;20;150','População (plantas/ha);num;0;120000','Estande final de plantas (parcela);num;0;500','Produtividade (kg/ha);num;0;30000','Produtividade (sc/ha);num;0;500'].join('\n');
+const PAIRS={'Produtividade (kg/ha)':['Produtividade (sc/ha)',1/60],'Produtividade (sc/ha)':['Produtividade (kg/ha)',60]}; // saca = 60 kg
+function parseTraits(txt){return txt.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{
+  const [n,t='num',a='',b='']=l.split(';').map(x=>x.trim());
+  return t==='cat'?{n,t,opts:a.split(',').map(x=>x.trim()).filter(Boolean)}:{n,t:t==='text'?'text':'num',min:a===''?null:+a,max:b===''?null:+b};
+})}
+const GO=['Altura','Nota','Porcentagem','Outras medidas'];
+function grp(tr){const n=tr.n.toLowerCase();
+  if(tr.t==='cat'||/nota/.test(n))return GO[1];
+  if(/altura/.test(n))return GO[0];
+  if(/\(%\)/.test(n))return GO[2];
+  return GO[3]}
+function sortT(t){t.traits.sort((a,b)=>GO.indexOf(grp(a))-GO.indexOf(grp(b)))}
+function migrate(t){if(t.dv===1)return;const have=new Set(t.traits.map(x=>x.n.toLowerCase()));parseTraits(DEF_TXT).forEach(x=>{if(!have.has(x.n.toLowerCase()))t.traits.push(x)});t.dv=1}
+function clean(t){if(t.dv2)return;const N='Nota acamamento';t.traits=t.traits.filter(x=>x.n!==N);t.plots.forEach(p=>{delete p.d[N]});t.dv2=1}
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){S.trials=x.trials||[];S.cur=x.cur;S.trials.forEach(t=>{if(t.shared)return;migrate(t);clean(t);sortT(t)})}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({trials:S.trials,cur:S.cur}))}catch(e){}}
+const T=()=>S.trials.find(t=>t.id===S.cur);
+
+function create(){
+  const R=Math.max(1,+$('#r').value||1),C=Math.max(1,+$('#c').value||1);
+  const gens=$('#g').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const traits=$('#t').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{
+    const [n,t='num',a='',b='']=l.split(';').map(s=>s.trim());
+    return t==='cat'?{n,t,opts:a.split(',').map(s=>s.trim()).filter(Boolean)}
+      :{n,t:t==='text'?'text':'num',min:a===''?null:+a,max:b===''?null:+b};
+  });
+  if(!traits.length){alert('Informe ao menos uma variável.');return}
+  const plots=[];let k=0;
+  for(let r=1;r<=R;r++)for(let i=0;i<C;i++){ // ordem em serpentina
+    k++;plots.push({id:'P'+String(k).padStart(3,'0'),r,c:r%2?i+1:C-i,gen:gens.length?gens[(k-1)%gens.length]:'',d:{}});
+  }
+  const imp=S.imp;const t={id:'t'+Date.now(),name:$('#n').value.trim()||'Ensaio',R:imp?imp.R:R,C:imp?imp.C:C,traits,plots:imp?imp.plots:plots};S.imp=null;S.impErr=null;
+  sortT(t);S.trials.push(t);S.cur=t.id;S.pi=0;S.tab='collect';save();render();
+}
+
+
+/* ---- fotos: IndexedDB (as fotos não cabem no localStorage) ---- */
+let DB;
+function idb(){return DB||(DB=new Promise((res,rej)=>{try{const q=indexedDB.open('fenocampo',1);q.onupgradeneeded=()=>q.result.createObjectStore('ph');q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)}catch(e){rej(e)}}))}
+async function pput(k,v){const d=await idb();return new Promise((res,rej)=>{const x=d.transaction('ph','readwrite');x.objectStore('ph').put(v,k);x.oncomplete=res;x.onerror=()=>rej(x.error)})}
+async function pget(k){const d=await idb();return new Promise((res,rej)=>{const r=d.transaction('ph').objectStore('ph').get(k);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function pdel(k){const d=await idb();return new Promise((res,rej)=>{const x=d.transaction('ph','readwrite');x.objectStore('ph').delete(k);x.oncomplete=res;x.onerror=()=>rej(x.error)})}
+function shrink(f){return new Promise((res,rej)=>{const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{const m=1280,k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',.72))};im.onerror=()=>rej(new Error('img'));im.src=u})}
+async function ensure(ids){const miss=ids.filter(i=>!S.cache[i]);if(!miss.length)return;let n=0;for(const i of miss){try{const v=await pget(i);if(v){S.cache[i]=v;n++}}catch(x){}}if(n){keepDraft();render()}}
+function keepDraft(){const d=$('#vd'),o=$('#vo');if(d&&o)S.draft={date:d.value,obs:o.value}}
+const th=(id,cat,extra='')=>`<div class="ph"><img ${S.cache[id]?`src="${S.cache[id]}"`:''} alt="Foto de ${cat}" data-z="${id}"><span>${cat==='campo'?'Campo':'Cultura'}</span>${extra}</div>`;
+async function saveVisit(){
+  const t=T(),date=$('#vd').value,obs=$('#vo').value.trim();
+  if(!date){alert('Selecione a data da visita.');return}
+  if(!obs&&!S.ph.length){alert('Escreva uma observação ou anexe ao menos uma foto.');return}
+  t.visits=t.visits||[];
+  const ex=S.editV&&t.visits.find(v=>v.id===S.editV);
+  try{
+    for(const f of S.ph)if(f.isNew){await pput(f.id,S.cache[f.id]);if(t.shared)await upAsset(f)}
+    if(ex){const keep=new Set(S.ph.map(f=>f.id));for(const o of ex.photos||[])if(!keep.has(o.id))await pdel(o.id)}
+  }catch(x){alert('Não foi possível salvar as fotos neste navegador.');return}
+  const photos=S.ph.map(f=>({id:f.id,cat:f.cat,a:f.a||''}));
+  const by=who(),ts=Date.now();let vv;if(ex){ex.date=date;ex.obs=obs;ex.photos=photos;ex.u=by;ex.ts=ts;vv=ex}else{vv={id:'v'+Date.now(),date,obs,photos,u:by,ts};t.visits.push(vv)}if(t.shared&&H.db)pushVisit(t,vv).catch(()=>setConn('Falha ao enviar a visita ao time.'));
+  S.editV=null;S.draft=null;S.ph=[];save();render();
+}
+const fd=d=>d.split('-').reverse().join('/');
+
+/* ---- importação do desenho do ensaio (CSV) ---- */
+function parseCSV(txt){
+  txt=txt.replace(/^\uFEFF/,'');
+  const first=txt.split(/\r?\n/)[0]||'';
+  const dl=[';','\t',','].sort((a,b)=>first.split(b).length-first.split(a).length)[0];
+  const rows=[];let row=[],f='',q=false;
+  const push=()=>{row.push(f);f='';if(row.some(x=>x.trim()!==''))rows.push(row);row=[]};
+  for(let i=0;i<txt.length;i++){const ch=txt[i];
+    if(q){if(ch==='"'){if(txt[i+1]==='"'){f+='"';i++}else q=false}else f+=ch}
+    else if(ch==='"')q=true;
+    else if(ch===dl){row.push(f);f=''}
+    else if(ch==='\n'||ch==='\r'){if(ch==='\r'&&txt[i+1]==='\n')i++;push()}
+    else f+=ch}
+  push();
+  return rows.map(r=>r.map(x=>x.trim()));
+}
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const ALI={id:['parcela','plot','plotid','unidade','id'],r:['linha','row','range','fila'],c:['coluna','col','column','passada','pass'],g:['genotipo','genotype','hibrido','entrada','cultivar','tratamento','entry'],rep:['repeticao','rep','bloco','block']};
+function importPlots(txt){
+  const rows=parseCSV(txt),err=[];
+  if(rows.length<2)return{err:['O arquivo precisa ter o cabeçalho e ao menos uma parcela.']};
+  const hd=rows[0].map(norm),ix={};
+  for(const k in ALI)ix[k]=hd.findIndex(h=>ALI[k].includes(h));
+  const nm={id:'parcela',r:'linha',c:'coluna',g:'genotipo'};
+  for(const k of ['id','r','c','g'])if(ix[k]<0)err.push('Coluna não encontrada: '+nm[k]+'.');
+  if(err.length)return{err};
+  const plots=[],ids=new Set(),pos=new Set();
+  rows.slice(1).forEach((r,k)=>{
+    const ln=k+2,id=r[ix.id],R=+r[ix.r],C=+r[ix.c],g=r[ix.g];
+    if(!id){err.push('Linha '+ln+' do arquivo: parcela vazia.');return}
+    if(!Number.isInteger(R)||R<1||!Number.isInteger(C)||C<1){err.push('Linha '+ln+' do arquivo: linha e coluna precisam ser números inteiros a partir de 1.');return}
+    if(ids.has(id))err.push('Linha '+ln+' do arquivo: parcela '+id+' repetida.');
+    if(pos.has(R+'-'+C))err.push('Linha '+ln+' do arquivo: posição linha '+R+', coluna '+C+' repetida.');
+    ids.add(id);pos.add(R+'-'+C);
+    plots.push({id,r:R,c:C,gen:g||'',rep:ix.rep>=0?(r[ix.rep]||''):'',d:{}});
+  });
+  if(err.length)return{err:err.slice(0,6).concat(err.length>6?['...e mais '+(err.length-6)+' problema(s).']:[])};
+  plots.sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true}));
+  return{plots,R:Math.max(...plots.map(x=>x.r)),C:Math.max(...plots.map(x=>x.c))};
+}
+function impHtml(){
+  if(S.impErr)return '<div class="err" style="margin-top:8px">'+S.impErr.map(esc).join('<br>')+'</div>';
+  if(S.imp){const g=new Set(S.imp.plots.map(p=>p.gen)).size,rp=new Set(S.imp.plots.map(p=>p.rep).filter(Boolean)).size;
+    return `<p class="mut" style="margin:8px 0 0"><b>${esc(S.imp.file)}</b>: ${S.imp.plots.length} parcelas em ${S.imp.R} linhas × ${S.imp.C} colunas, ${g} genótipos${rp?`, ${rp} repetições`:''}.</p>`}
+  return '';
+}
+function showImp(){const el=$('#imp');if(el)el.innerHTML=impHtml()}
+async function readCSVFile(f){const b=await f.arrayBuffer();try{return new TextDecoder('utf-8',{fatal:true}).decode(b)}catch(x){return new TextDecoder('windows-1252').decode(b)}}
+
+/* ---- registro de coletor e data/hora ---- */
+const who=()=>(S.user||'').trim()||'sem identificação';
+const z2=n=>String(n).padStart(2,'0');
+const fmtShort=ms=>new Date(ms).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+const fmtLocal=ms=>{const d=new Date(ms);return d.getFullYear()+'-'+z2(d.getMonth()+1)+'-'+z2(d.getDate())+' '+z2(d.getHours())+':'+z2(d.getMinutes())+':'+z2(d.getSeconds())};
+function stamp(p,n,empty){p.m=p.m||{};if(empty)delete p.m[n];else p.m[n]={u:who(),t:Date.now()}}
+function metaTxt(p,n){const m=p.m&&p.m[n];return m?m.u+', '+fmtShort(m.t):''}
+function csvLong(){
+  const t=T();if(!t)return'';
+  const q=v=>/[",\n;]/.test(v)?'"'+String(v).replace(/"/g,'""')+'"':v;
+  const rows=[['ensaio','parcela','linha','coluna','genotipo','repeticao','variavel','valor','coletor','data_hora']];
+  t.plots.forEach(p=>t.traits.forEach(x=>{const v=p.d[x.n];if(v===undefined||v==='')return;const m=p.m&&p.m[x.n];rows.push([t.name,p.id,p.r,p.c,p.gen,p.rep||'',x.n,v,m?m.u:'',m?fmtLocal(m.t):''])}));
+  return rows.map(r=>r.map(q).join(',')).join('\n');
+}
+
+/* ---- progresso, histórico/desfazer, atípicos, alto contraste ---- */
+function isDone(t,p){if(p.lost)return true;const xs=S.mode==='var'?[t.traits[S.vi]]:t.traits;return xs.every(x=>(p.d[x.n]??'')!=='')}
+function prog(t){return{d:t.plots.filter(p=>isDone(t,p)).length,n:t.plots.length}}
+function nextEmpty(){const t=T(),N=t.plots.length;for(let k=1;k<=N;k++){const i=(S.pi+k)%N;if(!isDone(t,t.plots[i])){S.pi=i;render();return}}alert('Todas as parcelas estão completas.')}
+function logc(t,p,n,a,b){
+  if(a===b)return;t.log=t.log||[];const L=t.log[t.log.length-1],now=Date.now();
+  if(L&&L.p===p.id&&L.n===n&&L.u===who()&&now-L.t<15000){L.b=b;L.t=now;if(L.a===L.b)t.log.pop()}
+  else{t.log.push({t:now,u:who(),p:p.id,n,a,b});if(t.log.length>500)t.log.shift()}
+}
+function undo(){
+  const t=T(),L=t&&(t.log||[]).pop();if(!L){alert('Nada para desfazer.');return}
+  const i=t.plots.findIndex(x=>x.id===L.p),p=t.plots[i];
+  if(L.n==='#perdida')p.lost=L.a==='1';
+  else if(L.n==='#nota')p.note=L.a;
+  else{p.d[L.n]=L.a;stamp(p,L.n,L.a==='');const pr=PAIRS[L.n];if(pr){p.d[pr[0]]=L.a===''?'':String(Math.round(+L.a*pr[1]*100)/100);stamp(p,pr[0],L.a==='')}}
+  touch(t,p,[L.n].concat(PAIRS[L.n]?[PAIRS[L.n][0]]:[]));S.pi=i;save();render();
+}
+function hist(t){
+  const L=(t.log||[]).slice(-30).reverse();if(!L.length)return'<p class="mut">Nenhuma alteração registrada.</p>';
+  const lab=l=>l.n==='#perdida'?'parcela perdida':l.n==='#nota'?'comentário':l.n;
+  const val=(l,v)=>l.n==='#perdida'?(v==='1'?'sim':'não'):v===''?'vazio':String(v).slice(0,30);
+  return L.map(l=>`<div class="mut" style="margin:6px 0">${fmtShort(l.t)}, ${esc(l.u)}, parcela ${esc(l.p)}, ${esc(lab(l))}: ${esc(val(l,l.a))} → ${esc(val(l,l.b))}</div>`).join('');
+}
+function outl(t,tr,p){
+  if(tr.t!=='num')return'';const v=p.d[tr.n];if(v===''||v===undefined)return'';
+  const xs=t.plots.filter(q=>q!==p&&!q.lost).map(q=>q.d[tr.n]).filter(x=>x!==''&&x!==undefined).map(Number).filter(x=>!isNaN(x));
+  if(xs.length<8)return'';
+  const m=xs.reduce((a,b)=>a+b,0)/xs.length,sd=Math.sqrt(xs.reduce((a,b)=>a+(b-m)**2,0)/(xs.length-1));
+  return sd>0&&Math.abs(+v-m)>3*sd?'Atenção: valor atípico (média do ensaio '+Math.round(m*10)/10+', desvio '+Math.round(sd*10)/10+'). Confira.':'';
+}
+function setHC(on){const r=document.documentElement;if(on)r.setAttribute('data-hc','');else r.removeAttribute('data-hc');$('#hc').setAttribute('aria-pressed',on);try{localStorage.setItem('fenocampo_hc',on?'1':'0')}catch(x){}}
+
+/* ---- dados compartilhados (banco do time) ---- */
+const H={db:null,subs:{}},Q=new Map();let deferR=false;
+const setConn=m=>{S.conn=m;const e=$('#cn');if(e)e.textContent=m};
+const plotKey=i=>'p'+String(i).padStart(4,'0');
+const pend=(t,i,f)=>{const e=Q.get(t.id+'|'+i);return !!(e&&e.f.has(f))};
+function softRender(){const a=document.activeElement;if(a&&a.closest&&a.closest('#v')&&/INPUT|TEXTAREA|SELECT/.test(a.tagName)&&a.type!=='file'){deferR=true;return}keepDraft();render()}
+function getField(t,p,f){if(f==='lost')return !!p.lost;if(f==='note')return p.note||'';const k=+f.slice(1),n=t.traits[k].n;return f[0]==='v'?(p.d[n]??''):((p.m&&p.m[n])||null)}
+function qPlot(t,i,fields){
+  if(!t.shared||!H.db)return;const key=t.id+'|'+i;let e=Q.get(key);
+  if(!e){e={f:new Set(),t:null,tid:t.id,i};Q.set(key,e)}
+  fields.forEach(f=>e.f.add(f));clearTimeout(e.t);e.t=setTimeout(()=>flush(t,i,key),500);
+}
+async function flush(t,i,key){
+  const e=Q.get(key);if(!e||!H.db)return;const p=t.plots[i],fs=[...e.f],o={};
+  fs.forEach(f=>{o[f]=getField(t,p,f)});
+  try{await H.db.doc('trials/'+t.id+'/plots/'+plotKey(i)).update(o);fs.forEach(f=>e.f.delete(f));if(!e.f.size)Q.delete(key)}
+  catch(x){setConn('Sem conexão com o time: os dados ficam no aparelho e são reenviados depois.')}
+}
+const retry=()=>Q.forEach((e,key)=>{const t=S.trials.find(x=>x.id===e.tid);if(t)flush(t,e.i,key)});
+function touch(t,p,names){
+  const i=t.plots.indexOf(p);if(i<0)return;
+  qPlot(t,i,names.flatMap(n=>{if(n==='#perdida')return['lost'];if(n==='#nota')return['note'];const k=t.traits.findIndex(x=>x.n===n);return k<0?[]:['v'+k,'m'+k]}));
+}
+function plotDoc(t,p,i){const o={i,id:p.id,r:p.r,c:p.c,gen:p.gen||'',rep:p.rep||'',lost:!!p.lost,note:p.note||''};t.traits.forEach((x,k)=>{o['v'+k]=p.d[x.n]??'';o['m'+k]=(p.m&&p.m[x.n])||null});return o}
+async function pool(jobs,n){let k=0;await Promise.all(Array.from({length:n},async()=>{while(k<jobs.length){const j=jobs[k++];await j()}}))}
+async function pushVisit(t,v){await H.db.doc('trials/'+t.id+'/visits/'+v.id).set({date:v.date,obs:v.obs||'',photos:v.photos||[],u:v.u||'',ts:v.ts||0})}
+async function shareTrial(t){
+  if(!H.db)return;t.shared=true;save();setConn('Enviando o ensaio ao time...');
+  await H.db.doc('trials/'+t.id).set({name:t.name,R:t.R,C:t.C,traits:t.traits,by:who(),ts:Date.now()});
+  await pool(t.plots.map((p,i)=>()=>H.db.doc('trials/'+t.id+'/plots/'+plotKey(i)).set(plotDoc(t,p,i))),4);
+  for(const v of (t.visits||[]))await pushVisit(t,v);
+  watch(t);setConn('Conectado ao banco do time. Ensaio compartilhado.');
+}
+function unsub(id){(H.subs[id]||[]).forEach(f=>f());delete H.subs[id]}
+async function delShared(t){
+  unsub(t.id);
+  for(const c of ['plots','visits']){const sn=await H.db.collection('trials/'+t.id+'/'+c).get();for(const d of sn.docs)await H.db.doc('trials/'+t.id+'/'+c+'/'+d.id).delete()}
+  await H.db.doc('trials/'+t.id).delete();
+}
+function applyPlot(t,doc){
+  const d=doc.data()||{},i=+String(doc.id).slice(1),p=t.plots[i];if(!p)return false;let ch=false;
+  t.traits.forEach((x,k)=>{
+    if(('v'+k) in d&&!pend(t,i,'v'+k)){const v=d['v'+k]??'';if((p.d[x.n]??'')!==v){p.d[x.n]=v;ch=true}}
+    if(('m'+k) in d&&!pend(t,i,'m'+k)){p.m=p.m||{};const m=d['m'+k];if(m)p.m[x.n]=m;else delete p.m[x.n]}
+  });
+  if('lost' in d&&!pend(t,i,'lost')&&!!p.lost!==!!d.lost){p.lost=!!d.lost;ch=true}
+  if('note' in d&&!pend(t,i,'note')&&(p.note||'')!==d.note){p.note=d.note;ch=true}
+  return ch;
+}
+function watch(t){
+  if(H.subs[t.id]||!H.db)return;
+  const a=H.db.collection('trials/'+t.id+'/plots').onSnapshot(sn=>{
+    sn.docChanges().forEach(c=>{if(c.type==='removed')return;const i=+String(c.doc.id).slice(1),d=c.doc.data()||{};
+      if(!t.plots[i])t.plots[i]={id:d.id,r:d.r,c:d.c,gen:d.gen||'',rep:d.rep||'',d:{},m:{}};
+      applyPlot(t,c.doc)});
+    save();softRender();
+  },e=>setConn('Erro de conexão com o time: '+(e.message||e.code)));
+  const b=H.db.collection('trials/'+t.id+'/visits').onSnapshot(sn=>{t.visits=sn.docs.map(x=>({id:x.id,...x.data()}));save();softRender()},()=>{});
+  H.subs[t.id]=[a,b];
+}
+async function upAsset(f){
+  let A=null;try{A=window.claude&&await window.claude.use('assets')}catch(x){}if(!A)return;
+  try{const [h,b]=S.cache[f.id].split(','),bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+    const r=await A.upload(new Blob([u],{type:'image/jpeg'}));f.a=r.id}catch(x){}
+}
+async function asData(u){
+  if(!u||!u.startsWith('/_blob/'))return u;
+  try{const b=await (await fetch(u)).blob();return await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(b)})}catch(x){return null}
+}
+async function initShared(){
+  try{const U=window.claude&&await window.claude.use('user');if(U&&!S.user){const me=await U.me();if(me&&me.name){S.user=me.name;try{localStorage.setItem('fenocampo_user',S.user)}catch(x){}}}}catch(x){}
+  let db=null;try{db=window.claude&&await window.claude.use('db')}catch(x){}
+  if(!db){setConn('Modo local: os dados ficam somente neste aparelho. Faça backups na aba Exportar.');softRender();return}
+  H.db=db;setConn('Conectado ao banco do time.');
+  db.collection('trials').onSnapshot(sn=>{
+    sn.docChanges().forEach(c=>{
+      const id=c.doc.id;
+      if(c.type==='removed'){unsub(id);S.trials=S.trials.filter(x=>!(x.id===id&&x.shared));if(S.cur===id)S.cur=S.trials[0]?S.trials[0].id:null;return}
+      const d=c.doc.data()||{};let t=S.trials.find(x=>x.id===id);
+      if(!t){t={id,name:d.name,R:d.R,C:d.C,traits:d.traits||[],plots:[],visits:[],log:[],shared:true,dv:1,dv2:1};S.trials.push(t);if(!S.cur)S.cur=id}
+      else{t.name=d.name||t.name;t.shared=true}
+      watch(t);
+    });
+    save();softRender();
+  },e=>setConn('Erro de conexão com o time: '+(e.message||e.code)));
+  softRender();
+}
+document.addEventListener('focusout',()=>{if(deferR)setTimeout(()=>{const a=document.activeElement;if(!(a&&a.closest&&a.closest('#v')&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))){deferR=false;keepDraft();render()}},150)});
+window.addEventListener('online',retry);setInterval(retry,20000);
+function vTrial(){
+  const tabs=`<div class="st"><button data-sub="list" class="${S.sub==='list'?'on':''}">Ensaios</button><button data-sub="visits" class="${S.sub==='visits'?'on':''}">Visitas</button></div>`;
+  return tabs+(S.sub==='visits'?vVisits():vTrialList());
+}
+function vVisits(){
+  const t=T();if(!t)return'<p class="mut">Selecione ou crie um ensaio para registrar visitas.</p>';
+  const all=t.visits||[],ed=S.editV&&all.find(v=>v.id===S.editV);
+  all.forEach(v=>(v.photos||[]).forEach(f=>{if(f.a&&!S.cache[f.id])S.cache[f.id]='/_blob/'+f.a}));ensure([...all.flatMap(v=>(v.photos||[]).map(f=>f.id)),...S.ph.map(f=>f.id)]);
+  const today=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+  const list=all.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(v=>`<div class="card"><b>${fd(v.date)}</b>${v.u?`<div class="mut">Salva por ${esc(v.u)}, ${fmtShort(v.ts)}</div>`:''}${v.obs?`<div class="vobs">${esc(v.obs)}</div>`:''}${(v.photos||[]).length?`<div class="phs">${v.photos.map(f=>th(f.id,f.cat)).join('')}</div>`:''}<div class="row"><button class="s" data-ev="${v.id}">Editar</button><button class="s" data-dv="${v.id}">Excluir</button></div></div>`).join('')||'<p class="mut">Nenhuma visita registrada neste ensaio.</p>';
+  return `<p class="mut" style="margin-top:0">Ensaio: <b>${esc(t.name)}</b></p>
+  <div class="card"><b>${ed?'Editar visita':'Nova visita'}</b>
+  <label for="vd">Data da visita</label><input id="vd" type="date" value="${S.draft?S.draft.date:ed?ed.date:today}">
+  <label for="vo">Observações</label><textarea id="vo" style="font-family:inherit;font-size:1rem;min-height:120px" placeholder="Estádio da cultura, pragas, clima, ocorrências...">${esc(S.draft?S.draft.obs:ed?ed.obs:'')}</textarea>
+  <label>Fotos</label>
+  <div class="row" style="gap:8px"><label class="fb" style="margin:0;text-align:center">+ Fotos do campo<input type="file" accept="image/*" multiple hidden data-pc="campo"></label><label class="fb" style="margin:0;text-align:center">+ Fotos da cultura<input type="file" accept="image/*" multiple hidden data-pc="cultura"></label></div>
+  ${S.ph.length?`<div class="phs">${S.ph.map(f=>th(f.id,f.cat,`<button data-rp="${f.id}" aria-label="Remover foto">×</button>`)).join('')}</div>`:''}
+  <div class="row" style="margin-top:12px"><button class="p" id="sv">Salvar visita</button>${ed?'<button class="s" id="cv">Cancelar edição</button>':''}</div></div>
+  <b>Visitas registradas</b><div style="margin-top:8px">${list}</div>`;
+}
+function vTrialList(){
+  const list=S.trials.map(t=>`<div class="row" style="margin-bottom:6px"><button class="s" data-open="${t.id}" style="text-align:left">${t.id===S.cur?'● ':''}${esc(t.name)} <span class="mut">(${t.plots.length} parcelas${t.shared?', compartilhado':''})</span></button>${(!t.shared&&H.db)?`<button class="s" data-sh="${t.id}" style="flex:0 0 auto">Compartilhar</button>`:''}<button class="s" data-del="${t.id}" style="flex:0 0 auto">Excluir</button></div>`).join('')||'<p class="mut">Nenhum ensaio ainda. Crie o primeiro abaixo.</p>';
+  return `<div class="card"><b>Seus ensaios</b><div style="margin-top:8px">${list}</div></div>
+  <div class="card"><b>Novo ensaio</b>
+  <label for="n">Nome</label><input id="n" placeholder="Ex.: Milho safrinha 2026 – Uberlândia">
+  <label for="csvf">Desenho do ensaio (arquivo CSV)</label>
+  <input id="csvf" type="file" accept=".csv,.txt,text/csv,text/plain">
+  <div id="imp">${impHtml()}</div>
+  <details style="margin-top:8px"><summary class="mut">Ver modelo do arquivo</summary>
+  <pre class="mod">parcela;linha;coluna;genotipo;repeticao
+1;1;1;DKB-001;1
+2;1;2;P-002;1
+3;1;3;NK-003;1
+4;1;4;Testemunha;1
+5;2;4;DKB-001;2
+6;2;3;P-002;2
+7;2;2;NK-003;2
+8;2;1;Testemunha;2</pre>
+  <p class="mut" style="margin:0">A linha 1 é a de baixo da grade. A repetição é opcional. Aceita separador ; , ou tabulação.</p></details>
+  <details style="margin-top:12px"><summary class="mut">Ou criar sem arquivo (grade simples)</summary>
+  <div class="row"><div><label for="r">Linhas</label><input id="r" type="number" value="6" min="1"></div><div><label for="c">Colunas</label><input id="c" type="number" value="8" min="1"></div></div>
+  <label for="g">Genótipos (um por linha, repetidos em ciclo)</label><textarea id="g">DKB-001\nP-002\nNK-003\nTestemunha</textarea></details>
+  <div hidden><label for="t">Variáveis (nome;tipo;mín;máx — tipos: num, text, cat)</label>
+  <textarea id="t" style="min-height:230px">${DEF_TXT}</textarea></div>
+  <p style="margin:12px 0 0"><button class="p" id="mk">Criar ensaio</button></p></div>`;
+}
+
+function vCollect(){
+  const t=T();if(!t)return'<p class="mut">Crie ou selecione um ensaio na aba Ensaio.</p>';
+  S.vi=Math.max(0,Math.min(S.vi,t.traits.length-1));const p=t.plots[S.pi];
+  const pg=prog(t),top=`<div class="st"><button data-md="plot" class="${S.mode!=='var'?'on':''}">Por parcela</button><button data-md="var" class="${S.mode==='var'?'on':''}">Por característica</button></div>${S.mode==='var'?`<select id="vs" style="margin-bottom:10px">${t.traits.map((x,k)=>`<option value="${k}"${k===S.vi?' selected':''}>${esc(x.n)}</option>`).join('')}</select>`:''}<div class="card" style="padding:10px 14px"><div class="hd"><span class="mut">${pg.d} de ${pg.n} parcelas ${S.mode==='var'?'com esta característica':'completas'}</span><button class="s" id="ne">Próxima vazia</button></div><div style="height:8px;background:var(--bd);border-radius:4px;margin-top:8px"><div style="height:8px;width:${pg.n?Math.round(100*pg.d/pg.n):0}%;background:var(--ac);border-radius:4px"></div></div></div>`;
+  let lastG='';const fields=p.lost?'<p class="mut">Parcela marcada como perdida: não há dados a lançar.</p>':t.traits.map((tr,i)=>{if(S.mode==='var'&&i!==S.vi)return'';
+    const v=p.d[tr.n]??'';let h='';
+    if(tr.t==='cat')h=`<div class="opts">${tr.opts.map(o=>`<button data-cat="${i}" data-v="${esc(o)}" class="${v===o?'on':''}">${esc(o)}</button>`).join('')}</div>`;
+    else if(tr.t==='num')h=`<input type="number" inputmode="decimal" step="any" data-i="${i}" value="${esc(v)}" id="f${i}">`;
+    else h=`<input type="text" data-i="${i}" value="${esc(v)}" id="f${i}">`;
+    const g=grp(tr),hd=(S.mode!=='var'&&g!==lastG)?`<h2 class="gh">${g}</h2>`:'';lastG=g;
+    return hd+`<div><label>${esc(tr.n)}</label>${h}<div class="mut mt" id="m${i}">${esc(metaTxt(p,tr.n))}</div><div class="err" id="e${i}">${esc(outl(t,tr,p))}</div></div>`;
+  }).join('');
+  return `${top}<div class="card"><label for="us" style="margin-top:0">Coletor</label><input id="us" value="${esc(S.user)}" placeholder="Seu nome, registrado em cada dado" style="margin-bottom:10px"><div class="row"><input id="q" placeholder="Buscar parcela ou genótipo" list="dl"><button class="s" id="go" style="flex:0 0 auto">Ir</button></div>
+  <datalist id="dl">${t.plots.map(x=>`<option value="${x.id}">${esc(x.gen)}</option>`).join('')}</datalist></div>
+  <div class="card"><div class="hd"><span class="big">${p.id}</span><span class="mut">linha ${p.r} · coluna ${p.c}${p.rep?' · rep '+esc(p.rep):''} · ${S.pi+1}/${t.plots.length}</span></div>
+  <p style="margin:6px 0 0"><b>${esc(p.gen)||'sem genótipo'}</b></p>${fields}
+  <div class="row" style="margin-top:14px"><button class="s" id="pv">Anterior</button><button class="p" id="nx">Próxima</button></div>
+  <div style="margin-top:14px"><label style="display:flex;gap:8px;align-items:center;font-weight:600"><input type="checkbox" id="lo" ${p.lost?'checked':''} style="width:auto"> Parcela perdida / sem avaliação</label><label for="nt">Comentário da parcela</label><textarea id="nt" style="font-family:inherit;font-size:1rem;min-height:64px">${esc(p.note||'')}</textarea></div>
+  <div class="row" style="margin-top:12px"><button class="s" id="un">Desfazer última entrada</button></div></div>
+  <details class="card"><summary class="mut">Histórico de alterações</summary>${hist(t)}</details>`;
+}
+
+function vGrid(){
+  const t=T();if(!t)return'<p class="mut">Nenhum ensaio selecionado.</p>';
+  const m={};t.plots.forEach((p,i)=>m[p.r+'-'+p.c]=i);
+  let h='<div class="card grid"><table>';
+  for(let r=t.R;r>=1;r--){h+='<tr>';for(let c=1;c<=t.C;c++){
+    const i=m[r+'-'+c];if(i===undefined){h+='<td style="cursor:default;background:var(--bg)"></td>';continue}const p=t.plots[i],n=Object.values(p.d).filter(v=>v!=='').length,f=p.lost?3:n===0?0:n<t.traits.length?1:2;
+    h+=`<td class="f${f} ${i===S.pi?'cur':''}" data-go="${i}">${p.id.slice(1)}</td>`}h+='</tr>'}
+  return h+'</table></div><p class="mut">Cinza: sem dados · amarelo: parcial · verde: completa, listrado: parcela perdida. Toque para coletar.</p>';
+}
+
+function csv(){
+  const t=T();if(!t)return'';
+  const q=v=>/[",\n;]/.test(v)?'"'+String(v).replace(/"/g,'""')+'"':v;
+  const rows=[['ensaio','parcela','linha','coluna','genotipo','repeticao','situacao','comentario',...t.traits.map(x=>x.n)]];
+  t.plots.forEach(p=>rows.push([t.name,p.id,p.r,p.c,p.gen,p.rep||'',p.lost?'perdida':'',p.note||'',...t.traits.map(x=>p.d[x.n]??'')]));
+  return rows.map(r=>r.map(q).join(',')).join('\n');
+}
+const slug=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'_').replace(/^_+|_+$/g,'')||'ensaio';
+const showSt=m=>{const e=$('#st');if(e)e.textContent=m};
+const msgOf=r=>r==='ok'?'Arquivo enviado para salvar.':r==='declined'?'Download cancelado.':'Não foi possível baixar o arquivo neste ambiente. Use Copiar CSV.';
+async function saveFile(name,data){
+  let dl=null;try{dl=window.claude&&await window.claude.use('downloads')}catch(x){}
+  if(dl){try{await dl.save({filename:name,data});return 'ok'}catch(x){return x&&x.code==='declined'?'declined':'err'}}
+  try{const bl=data instanceof Blob?data:new Blob([data]);const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);return 'ok'}catch(x){return 'err'}
+}
+function csvVis(){
+  const t=T();if(!t)return'';
+  const q=v=>/[",\n;]/.test(v)?'"'+String(v).replace(/"/g,'""')+'"':v;
+  const rows=[['ensaio','data','observacoes','coletor','salva_em','fotos_campo','fotos_cultura']];
+  (t.visits||[]).slice().sort((x,y)=>x.date.localeCompare(y.date)).forEach(v=>{const fs=v.photos||[];rows.push([t.name,v.date,v.obs||'',v.u||'',v.ts?fmtLocal(v.ts):'',fs.filter(f=>f.cat==='campo').length,fs.filter(f=>f.cat==='cultura').length])});
+  return rows.map(r=>r.map(q).join(',')).join('\n');
+}
+const txtExp=()=>S.exp==='long'?csvLong():S.exp==='vis'?csvVis():csv();
+async function doCSV(){
+  const t=T();if(!t){showSt('Selecione um ensaio.');return}
+  const k=S.exp==='long'?'com_coletor':S.exp==='vis'?'visitas':'dados';
+  showSt(msgOf(await saveFile(slug(t.name)+'_'+k+'.csv','\uFEFF'+txtExp())));
+}
+async function doZip(){
+  const t=T();if(!t){showSt('Selecione um ensaio.');return}
+  if(!window.JSZip){showSt('A biblioteca de ZIP não carregou. Conecte-se à internet e recarregue a página.');return}
+  showSt('Montando o pacote...');
+  const z=new JSZip(),d=slug(t.name),n={};let np=0;
+  z.file(d+'/dados.csv','\uFEFF'+csv());z.file(d+'/dados_com_coletor.csv','\uFEFF'+csvLong());z.file(d+'/visitas.csv','\uFEFF'+csvVis());
+  for(const v of (t.visits||[]))for(const f of (v.photos||[])){
+    const u=await asData(S.cache[f.id]||await pget(f.id).catch(()=>null));if(!u)continue;
+    const k=v.date+'_'+f.cat;n[k]=(n[k]||0)+1;
+    z.file(d+'/fotos/'+k+'_'+z2(n[k])+'.jpg',u.split(',')[1],{base64:true});np++;
+  }
+  const bl=await z.generateAsync({type:'blob'});
+  showSt(msgOf(await saveFile(d+'.zip',bl))+' ('+np+' foto(s) incluída(s))');
+}
+async function doBackup(){
+  if(!S.trials.length){showSt('Não há ensaios para salvar.');return}
+  showSt('Montando o backup...');
+  const fotos={};
+  for(const t of S.trials)for(const v of (t.visits||[]))for(const f of (v.photos||[])){const u=await asData(S.cache[f.id]||await pget(f.id).catch(()=>null));if(u)fotos[f.id]=u}
+  const js=JSON.stringify({app:'caderno-de-campo',versao:1,geradoEm:new Date().toISOString(),coletor:S.user,trials:S.trials,fotos});
+  const r=await saveFile('caderno-de-campo-backup-'+fmtLocal(Date.now()).slice(0,10)+'.json',js);
+  if(r==='ok'){try{localStorage.setItem('fenocampo_bk',String(Date.now()))}catch(x){}}
+  const m=msgOf(r);render();showSt(m);
+}
+async function restoreBackup(f){
+  let o;try{o=JSON.parse(await f.text())}catch(x){return 'Arquivo inválido: não é um backup do Caderno de Campo.'}
+  if(!o||o.app!=='caderno-de-campo'||!Array.isArray(o.trials))return 'Arquivo inválido: não é um backup do Caderno de Campo.';
+  const dup=o.trials.filter(t=>S.trials.some(x=>x.id===t.id)).length;
+  if(dup&&!confirm(dup+' ensaio(s) já existem neste aparelho e serão substituídos pelos do backup. Continuar?'))return 'Restauração cancelada.';
+  for(const [id,u] of Object.entries(o.fotos||{})){try{await pput(id,u);S.cache[id]=u}catch(x){return 'Não foi possível guardar as fotos neste navegador.'}}
+  o.trials.forEach(t=>{const i=S.trials.findIndex(x=>x.id===t.id);if(i>=0)S.trials[i]=t;else S.trials.push(t)});
+  if(o.trials[0])S.cur=o.trials[0].id;S.pi=0;save();
+  return 'Backup restaurado: '+o.trials.length+' ensaio(s).';
+}
+function bkInfo(){
+  let b=0;try{b=+localStorage.getItem('fenocampo_bk')||0}catch(x){}
+  const old=!b||Date.now()-b>7*864e5;
+  return `<p class="mut" style="margin:8px 0;${old?'color:var(--bad)':''}">${b?'Último backup: '+fmtShort(b)+'.':'Nenhum backup feito neste aparelho.'}${old?' Faça um backup agora.':''}</p>`;
+}
+function vExport(){
+  const t=T(),tb=(k,l)=>`<button data-exp="${k}" class="${S.exp===k?'on':''}">${l}</button>`;
+  return `<div class="st">${tb('wide','Planilha')}${tb('long','Com coletor e data/hora')}${tb('vis','Visitas')}</div>
+  <div class="card"><b>Exportar dados</b>${t?'':'<p class="mut">Selecione um ensaio para exportar.</p>'}
+  <textarea id="o" readonly style="min-height:160px;margin-top:8px">${esc(txtExp())}</textarea>
+  <div class="row" style="margin-top:10px"><button class="p" id="dlc">Baixar CSV</button><button class="s" id="cp">Copiar CSV</button></div></div>
+  <div class="card"><b>Pacote do ensaio (ZIP)</b><p class="mut">Reúne os três CSVs e todas as fotos das visitas, em pastas com nomes organizados.</p><button class="p" id="zp">Baixar pacote ZIP</button></div>
+  <div class="card"><b>Backup de todos os ensaios</b>${bkInfo()}<p class="mut" style="margin-top:0">Guarda ensaios, visitas e fotos num único arquivo, que pode ser restaurado neste ou em outro aparelho.</p>
+  <div class="row"><button class="p" id="bk">Salvar backup</button><label class="fb" style="margin:0;text-align:center">Restaurar backup<input type="file" accept=".json,application/json" hidden id="rs"></label></div></div>
+  <p class="mut" id="st" role="status"></p>`;
+}
+
+function render(){
+  {const t0=T();if(t0&&!t0.plots.every(Boolean)){$('#v').innerHTML='<p class="mut">Carregando o ensaio do time...</p>';return}}
+  $('#nav').innerHTML=[['trial','Ensaio'],['collect','Coletar'],['grid','Grade'],['export','Exportar']].map(([k,l])=>`<button data-tab="${k}" class="${S.tab===k?'on':''}">${l}</button>`).join('');
+  $('#v').innerHTML={trial:vTrial,collect:vCollect,grid:vGrid,export:vExport}[S.tab]();
+  if(S.tab==='collect'&&document.activeElement===document.body){const f=document.querySelector('input[data-i]');if(f&&T())f.focus()}
+}
+
+function setVal(i,v){
+  const t=T(),tr=t.traits[i],p=t.plots[S.pi],e=$('#e'+i),el=$('#f'+i);let msg='';
+  if(tr.t==='num'&&v!==''){const n=+v;if(isNaN(n))msg='Valor inválido.';else if(tr.min!=null&&n<tr.min||tr.max!=null&&n>tr.max)msg=`Fora do intervalo (${tr.min??'−∞'} a ${tr.max??'∞'}).`}
+  const old0=p.d[tr.n]??'';p.d[tr.n]=v;stamp(p,tr.n,v==='');logc(t,p,tr.n,old0,v);if(!msg)msg=outl(t,tr,p);
+  const pr=PAIRS[tr.n];
+  if(pr){const j=t.traits.findIndex(x=>x.n===pr[0]);if(j>=0){const o=v===''||isNaN(+v)?'':String(Math.round(+v*pr[1]*100)/100);p.d[pr[0]]=o;stamp(p,pr[0],o==='');const oe=$('#f'+j);if(oe)oe.value=o}}
+  save();touch(t,p,[tr.n].concat(pr?[pr[0]]:[]));
+  t.traits.forEach((x,k)=>{const me=$('#m'+k);if(me)me.textContent=metaTxt(p,x.n)});
+  if(e)e.textContent=msg;if(el)el.classList.toggle('bad',!!msg);
+}
+function mv(d){const t=T();S.pi=Math.min(t.plots.length-1,Math.max(0,S.pi+d));render()}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button,td');if(!b)return;const d=b.dataset;
+  if(d.tab){S.tab=d.tab;render()}
+  else if(d.sub){S.sub=d.sub;S.editV=null;S.draft=null;S.ph=[];render()}
+  else if(d.exp){S.exp=d.exp;render()}
+  else if(d.md){S.mode=d.md;render()}
+  else if(b.id==='ne')nextEmpty();
+  else if(b.id==='un')undo();
+  else if(b.id==='dlc')doCSV();
+  else if(b.id==='zp')doZip();
+  else if(b.id==='bk')doBackup();
+  else if(b.id==='hc')setHC(!document.documentElement.hasAttribute('data-hc'));
+  else if(b.id==='sv')saveVisit();
+  else if(b.id==='cv'){S.editV=null;S.draft=null;S.ph=[];render()}
+  else if(d.ev){const v=(T().visits||[]).find(x=>x.id===d.ev);S.editV=d.ev;S.draft=null;S.ph=(v.photos||[]).map(f=>({id:f.id,cat:f.cat,a:f.a}));render()}
+  else if(d.rp){keepDraft();S.ph=S.ph.filter(f=>f.id!==d.rp);render()}
+  else if(d.dv){if(confirm('Excluir esta visita e suas fotos?')){const t=T();const v=(t.visits||[]).find(x=>x.id===d.dv);(v&&v.photos||[]).forEach(f=>pdel(f.id).catch(()=>{}));if(t.shared&&H.db)H.db.doc('trials/'+t.id+'/visits/'+d.dv).delete().catch(()=>{});t.visits=(t.visits||[]).filter(x=>x.id!==d.dv);S.editV=null;S.draft=null;S.ph=[];save();render()}}
+  else if(b.id==='mk')create();
+  else if(d.open){S.cur=d.open;S.pi=0;S.editV=null;S.draft=null;S.ph=[];save();render()}
+  else if(d.sh){const t=S.trials.find(x=>x.id===d.sh);if(t&&confirm('Enviar "'+t.name+'" ao banco do time? Quem tiver acesso ao app poderá ver e editar.'))shareTrial(t).then(render).catch(e=>setConn('Falha ao compartilhar: '+(e.message||e.code)))}
+  else if(d.del){const sh=S.trials.find(t=>t.id===d.del&&t.shared);if(confirm(sh?'Este ensaio é compartilhado. Excluir para todo o time?':'Excluir este ensaio e seus dados?')){if(sh&&H.db)delShared(sh).catch(()=>setConn('Falha ao excluir no banco do time.'));S.trials.filter(t=>t.id===d.del).forEach(t=>(t.visits||[]).forEach(v=>(v.photos||[]).forEach(f=>pdel(f.id).catch(()=>{}))));S.trials=S.trials.filter(t=>t.id!==d.del);if(S.cur===d.del)S.cur=S.trials[0]?.id||null;save();render()}}
+  else if(d.cat!==undefined){const t=T(),tr=t.traits[+d.cat],p=t.plots[S.pi];const o0=p.d[tr.n]??'';p.d[tr.n]=p.d[tr.n]===d.v?'':d.v;logc(t,p,tr.n,o0,p.d[tr.n]);stamp(p,tr.n,p.d[tr.n]==='');save();touch(t,p,[tr.n]);if(S.mode==='var'&&p.d[tr.n]!==''&&S.pi<t.plots.length-1)S.pi++;render()}
+  else if(b.id==='nx')mv(1);else if(b.id==='pv')mv(-1);
+  else if(b.id==='go'){const q=$('#q').value.trim().toLowerCase(),t=T(),i=t.plots.findIndex(p=>p.id.toLowerCase()===q||p.gen.toLowerCase()===q);if(i>=0){S.pi=i;render()}else alert('Parcela não encontrada.')}
+  else if(d.go!==undefined){S.pi=+d.go;S.tab='collect';render()}
+  else if(b.id==='cp'){const o=$('#o');o.select();let ok=false;try{ok=document.execCommand('copy')}catch(x){}showSt(ok?'Copiado.':'Selecione o texto e copie manualmente.')}
+});
+document.addEventListener('input',e=>{if(e.target.id==='nt'){const t=T(),p=t.plots[S.pi],o=p.note||'';p.note=e.target.value;logc(t,p,'#nota',o,p.note);save();touch(t,p,['#nota'])}if(e.target.id==='us'){S.user=e.target.value;try{localStorage.setItem('fenocampo_user',S.user)}catch(x){}}const i=e.target.dataset.i;if(i!==undefined)setVal(+i,e.target.value);if(e.target.id==='vd'||e.target.id==='vo')keepDraft()});
+document.addEventListener('change',async e=>{
+  const el=e.target;if(el.dataset.pc===undefined)return;
+  keepDraft();const fs=[...el.files],cat=el.dataset.pc;el.value='';let bad=0;
+  for(const f of fs){try{const u=await shrink(f);const id='f'+Date.now()+Math.random().toString(36).slice(2,6);S.cache[id]=u;S.ph.push({id,cat,isNew:true})}catch(x){bad++}}
+  if(bad)alert(bad+' arquivo(s) não puderam ser lidos como imagem.');
+  keepDraft();render();
+});
+document.addEventListener('click',e=>{const z=e.target.closest('[data-z]'),m=$('#zm');if(z&&S.cache[z.dataset.z]){m.innerHTML='<img alt="Foto ampliada" src="'+S.cache[z.dataset.z]+'">';m.hidden=false}else if(e.target.closest('#zm'))m.hidden=true});
+document.addEventListener('keydown',e=>{ // Enter avança: próxima variável, depois próxima parcela
+  if(e.key!=='Enter'||e.target.dataset.i===undefined)return;e.preventDefault();
+  const all=[...document.querySelectorAll('input[data-i]')],nx=all[all.indexOf(e.target)+1];if(nx)nx.focus();else mv(1);
+});
+document.addEventListener('change',async e=>{
+  if(e.target.id!=='csvf')return;const f=e.target.files[0];if(!f)return;
+  let r;try{r=importPlots(await readCSVFile(f))}catch(x){r={err:['Não foi possível ler o arquivo.']}}
+  if(r.err){S.imp=null;S.impErr=r.err}else{S.imp={...r,file:f.name};S.impErr=null}
+  showImp();
+});
+document.addEventListener('change',e=>{
+  if(e.target.id==='vs'){S.vi=+e.target.value;render()}
+  if(e.target.id==='lo'){const t=T(),p=t.plots[S.pi],o=p.lost?'1':'';p.lost=e.target.checked;logc(t,p,'#perdida',o,p.lost?'1':'');save();touch(t,p,['#perdida']);render()}
+});
+document.addEventListener('change',async e=>{
+  if(e.target.id!=='rs')return;const f=e.target.files[0];e.target.value='';if(!f)return;
+  const m=await restoreBackup(f);render();showSt(m);
+});
+try{if(localStorage.getItem('fenocampo_hc')==='1')setHC(true)}catch(x){}
+try{S.user=localStorage.getItem('fenocampo_user')||''}catch(x){}
+load();save();render();initShared();
+
+/* ---- instalação e modo offline (PWA) ---- */
+let dip=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;$('#it').textContent='Instale o app para abrir em tela cheia e usar no campo.';$('#ins').hidden=false;$('#ib').hidden=false});
+document.addEventListener('click',e=>{if(e.target.id==='ins'&&dip){dip.prompt();dip.userChoice.finally(()=>{dip=null;$('#ib').hidden=true})}});
+window.addEventListener('appinstalled',()=>{$('#ib').hidden=true});
+{const ios=/iphone|ipad|ipod/i.test(navigator.userAgent),sa=navigator.standalone||matchMedia('(display-mode: standalone)').matches;
+ if(ios&&!sa){$('#it').textContent='No iPhone: toque em Compartilhar e depois em Adicionar à Tela de Início para instalar.';$('#ib').hidden=false}}
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
